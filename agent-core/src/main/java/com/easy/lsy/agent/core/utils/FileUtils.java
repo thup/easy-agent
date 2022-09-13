@@ -1,10 +1,11 @@
 package com.easy.lsy.agent.core.utils;
 
 import com.easy.lsy.agent.core.config.Config;
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import com.easy.lsy.agent.core.span.CallInfo;
+import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.Yaml;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -74,5 +75,28 @@ public class FileUtils {
         in.close();
         configMap.put(key, result);
         return result;
+    }
+
+    public static void saveYaml(String path, CallInfo callInfo) {
+        final DumperOptions dumperOptions = new DumperOptions();
+        dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+        final Yaml yaml = new Yaml(dumperOptions);
+
+        ArrayList<CallInfo> yamlData = new ArrayList<>();
+        yamlData.add(callInfo);
+        try {
+            File targetFile = new File(path);
+
+            if (!targetFile.getParentFile().exists()) {
+                targetFile.getParentFile().mkdirs();
+            }
+
+            System.out.println("reslut == " + targetFile.getAbsolutePath() );
+
+            final FileWriter fileWriter = new FileWriter(path, true);
+            yaml.dump(yamlData, fileWriter);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

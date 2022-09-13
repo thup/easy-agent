@@ -3,6 +3,7 @@ package com.easy.lsy.agent.core.plugin.intercept.enhance;
 import com.easy.lsy.agent.core.logging.api.ILog;
 import com.easy.lsy.agent.core.logging.api.LogManager;
 import com.easy.lsy.agent.core.plugin.AbstractEnhanceClassDefine;
+import com.easy.lsy.agent.core.plugin.InstanceMethodsInter;
 import com.easy.lsy.agent.core.plugin.StaticMethodsInter;
 import com.easy.lsy.agent.core.plugin.intercept.ConstructorInterceptPoint;
 import com.easy.lsy.agent.core.plugin.intercept.EnhanceException;
@@ -91,6 +92,15 @@ public abstract class ClassEnhancePluginDefine extends AbstractEnhanceClassDefin
          * 增强实例方法
          */
         if (existedMethodsInterceptPoints) {
+
+/*            ElementMatcher.Junction<MethodDescription> junction = not(isStatic()).and(ElementMatchers.any());
+            junction = junction.and(ElementMatchers.<MethodDescription>isDeclaredBy(typeDescription));
+
+            newClassBuilder =
+                    newClassBuilder.method(junction)
+                            .intercept(
+                                    MethodDelegation.withDefaultConfiguration().to(new InstanceMethodsInter()) // 委托到 Interceptor的实例方法
+                            );*/
             for (InstanceMethodsInterceptPoint instanceMethodsInterceptPoint : instanceMethodsInterceptPoints) {
                 String interceptor = instanceMethodsInterceptPoint.getMethodsInterceptor();
                 if (StringUtils.isEmpty(interceptor)) {

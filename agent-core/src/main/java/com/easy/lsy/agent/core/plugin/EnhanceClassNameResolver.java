@@ -22,6 +22,13 @@ public class EnhanceClassNameResolver {
             list = Arrays.asList(FileUtils.readConfig(EnumAgentConfig.ENHANCECLASSNAME.getValue()).split(","));
         } catch (Exception e) {
             logger.error("Failed to parse the list of classes to be enhanced.", e);
+        }finally {
+            if(list==null){
+                list = new ArrayList<>();
+            }
+            if(list.size()==0){
+                list.add("com.easy.lsy.agent.connection.ConnectionInstrumentation");
+            }
         }
         return list;
     }
