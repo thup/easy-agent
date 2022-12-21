@@ -107,6 +107,8 @@ public abstract class ClassEnhancePluginDefine extends AbstractEnhanceClassDefin
                     logger.error("no InstanceMethodsAroundInterceptor define to enhance class " + enhanceOriginClassName);
                     throw new EnhanceException("no InstanceMethodsAroundInterceptor define to enhance class " + enhanceOriginClassName);
                 }
+
+                //此处做方法过滤
                 ElementMatcher.Junction<MethodDescription> junction = not(isStatic()).and(instanceMethodsInterceptPoint.getMethodsMatcher());
                 junction = junction.and(ElementMatchers.<MethodDescription>isDeclaredBy(typeDescription));
 
